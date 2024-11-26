@@ -221,6 +221,19 @@ body {
   background: none;
   cursor: pointer;
   border-bottom: 2px solid transparent;
+  position: relative;
+}
+
+.tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--primary-color);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
 }
 
 .tab.active {
@@ -228,6 +241,9 @@ body {
   color: var(--primary-color);
 }
 
+.tab.active::after {
+  width: 100%;
+}
 
 .settings {
   margin-top: 1rem;
@@ -260,10 +276,45 @@ body {
   color: white;
   cursor: pointer;
   transition: opacity 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn:hover {
   opacity: 0.9;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.btn:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(40, 40);
+    opacity: 0;
+  }
 }
 
 .file-drop {
@@ -272,11 +323,16 @@ body {
   padding: 2rem;
   text-align: center;
   cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .file-drop.dragging {
   border-color: var(--primary-color);
   background: rgba(52, 152, 219, 0.1);
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(52, 152, 219, 0.2);
 }
 
 .file-list {
@@ -290,6 +346,18 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 4px;
   margin-bottom: 0.5rem;
+  animation: file-item-in 0.3s ease-out;
+}
+
+@keyframes file-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .file-item .name {
@@ -310,6 +378,23 @@ body {
 
 .error {
   color: #e74c3c;
+  padding: 0.8rem;
+  border-radius: 4px;
+  background: #ffebee;
+  border-left: 4px solid #ef5350;
+  margin: 1rem 0;
+  animation: error-in 0.3s ease-out;
+}
+
+@keyframes error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .link {
@@ -652,10 +737,12 @@ body {
   cursor: pointer;
   color: #666;
   padding: 5px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
 }
 
 .password-toggle:hover {
-  color: var(--primary-color);
+  opacity: 1;
 }
 
 .admin-login .actions {
@@ -1466,10 +1553,13 @@ body {
   z-index: 1000;
   opacity: 0;
   transition: opacity 0.3s ease;
+  transform: translate(-50%, 20px);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .copy-toast.show {
   opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 // 在 styles 中添加进度条样式
@@ -1613,6 +1703,528 @@ body {
   justify-content: space-between;
   font-size: 0.9rem;
   color: #666;
+}
+
+// 优化加载状态显示
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// 优化按钮点击反馈
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.btn:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(40, 40);
+    opacity: 0;
+  }
+}
+
+// 优化文件拖放区域反馈
+.file-drop {
+  transition: all 0.3s ease;
+}
+
+.file-drop.dragging {
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(52, 152, 219, 0.2);
+}
+
+// 优化复制成功提示样式
+.copy-toast {
+  transform: translate(-50%, 20px);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.copy-toast.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+// 优化输入框焦点状态
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+// 优化错误提示样式
+.error {
+  padding: 0.8rem;
+  border-radius: 4px;
+  background: #ffebee;
+  border-left: 4px solid #ef5350;
+  margin: 1rem 0;
+  animation: error-in 0.3s ease-out;
+}
+
+@keyframes error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 优化滚动条样式
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* 文件上传进度条优化 */
+.progress-bar {
+  background: #f0f0f0;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.progress-bar-inner {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, .15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, .15) 50%,
+    rgba(255, 255, 255, .15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 1rem 1rem;
+  animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+  from { background-position: 1rem 0; }
+  to { background-position: 0 0; }
+}
+
+/* 文件拖放提示优化 */
+.file-drop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px dashed var(--border-color);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.file-drop.dragging::before {
+  opacity: 1;
+  animation: border-dance 1s linear infinite;
+}
+
+@keyframes border-dance {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 100; }
+}
+
+/* 编辑器工具栏 */
+.editor-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+}
+
+.editor-toolbar button {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: white;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.editor-toolbar button:hover {
+  background: #f1f2f6;
+  border-color: #ccc;
+}
+
+/* 文件上传状态优化 */
+.upload-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+.upload-item .name {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.upload-item .status {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.upload-item .status.success {
+  color: #2ecc71;
+}
+
+.upload-item .status.error {
+  color: #e74c3c;
+}
+
+/* 密码强度指示器 */
+.password-strength {
+  height: 3px;
+  margin-top: 4px;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.password-strength.weak {
+  background: #e74c3c;
+  width: 33.33%;
+}
+
+.password-strength.medium {
+  background: #f1c40f;
+  width: 66.66%;
+}
+
+.password-strength.strong {
+  background: #2ecc71;
+  width: 100%;
+}
+
+/* 文件大小限制提示 */
+.size-limit-warning {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 4px;
+  color: #856404;
+  margin: 0.5rem 0;
+  font-size: 0.9em;
+}
+
+.size-limit-warning::before {
+  content: '⚠️';
+  margin-right: 0.5rem;
+}
+
+/* 自适应高度的文本框 */
+.auto-resize-textarea {
+  min-height: 100px;
+  max-height: 500px;
+  resize: vertical;
+  transition: height 0.2s;
+}
+
+/* 文件类型图标 */
+.file-type-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.file-type-icon.image { background-image: url('data:image/svg+xml,...'); }
+.file-type-icon.document { background-image: url('data:image/svg+xml,...'); }
+.file-type-icon.archive { background-image: url('data:image/svg+xml,...'); }
+
+/* 链接复制成功动画 */
+@keyframes copy-success {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.copy-success {
+  animation: copy-success 0.3s ease-in-out;
+}
+
+/* 标签切换过渡效果 */
+.tab-content {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease-out;
+}
+
+.tab-content.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 文件上传错误抖动效果 */
+@keyframes upload-error-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.upload-error {
+  animation: upload-error-shake 0.3s ease-in-out;
+}
+
+/* 添加文件上传拖拽时的动画效果 */
+.file-drop {
+  position: relative;
+  overflow: hidden;
+}
+
+.file-drop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, 
+    rgba(52, 152, 219, 0.1) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(52, 152, 219, 0.1) 50%,
+    rgba(52, 152, 219, 0.1) 75%,
+    transparent 75%
+  );
+  background-size: 20px 20px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  animation: bg-scroll 0.5s linear infinite;
+}
+
+.file-drop.dragging::after {
+  opacity: 1;
+}
+
+@keyframes bg-scroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px 20px; }
+}
+
+/* 优化文件上传进度显示 */
+.upload-progress {
+  position: relative;
+  height: 24px;
+  background: #f0f0f0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.upload-progress-bar {
+  height: 100%;
+  background: var(--primary-color);
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.upload-progress-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* 优化文件列表项动画 */
+.file-item {
+  animation: file-item-in 0.3s ease-out;
+}
+
+@keyframes file-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 优化复制按钮反馈 */
+.copy-btn {
+  position: relative;
+}
+
+.copy-btn::before {
+  content: '已复制!';
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.copy-btn.copied::before {
+  opacity: 1;
+}
+
+/* 优化密码输入框切换按钮 */
+.password-toggle {
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.password-toggle:hover {
+  opacity: 1;
+}
+
+/* 优化标签切换动画 */
+.tab {
+  position: relative;
+}
+
+.tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--primary-color);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.tab.active::after {
+  width: 100%;
+}
+
+/* 优化错误提示动画 */
+.error {
+  animation: error-in 0.3s ease-out;
+}
+
+@keyframes error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 优化加载状态显示 */
+.loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+}
+
+.loading::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 优化按钮禁用状态 */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.btn:disabled::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 5px,
+    rgba(255,255,255,0.1) 5px,
+    rgba(255,255,255,0.1) 10px
+  );
 }
 `;
 
@@ -2420,7 +3032,12 @@ createApp({
         </div>
         <div class="input-group">
             <label>密码保护</label>
-            <input type="password" v-model="password" placeholder="可选">
+            <input 
+              type="password" 
+              v-model="password" 
+              placeholder="可选"
+              autocomplete="new-password"
+            >
         </div>
         <div class="input-group">
             <label>过期时间</label>
@@ -2441,6 +3058,7 @@ createApp({
             pattern="[a-zA-Z0-9-_]+"
             title="只能使用字母、数字、横线和下划线"
             :disabled="files.length > 1"
+            autocomplete="new-password"
           >
           <small v-if="files.length > 1" style="color: #666;">
             多文件上传时不支持自定义链接
@@ -2495,6 +3113,7 @@ createApp({
               pattern="[a-zA-Z0-9-_]+"
               title="只能使用字母、数字、横线和下划线"
               :disabled="files.length > 1"
+              autocomplete="new-password"
             >
             <small v-if="files.length > 1" style="color: #666;">
               多文件上传时不支持自定义链接
@@ -2503,7 +3122,7 @@ createApp({
 
           <div class="input-group">
             <label>密码保护</label>
-            <input type="password" v-model="password" placeholder="可选">
+            <input type="password" v-model="password" placeholder="可选" autocomplete="new-password">
           </div>
           <div class="input-group">
             <label>过期时间</label>
