@@ -108,21 +108,16 @@
 
 ## 🚀 部署步骤
 
-### 1. 修改环境变量(可选)
-
-修改 `wrangler.toml` 文件中的环境变量:
-
-```toml
-[vars]
-ADMIN_USERNAME = "你的管理员用户名"
-ADMIN_PASSWORD = "你的管理员密码" 
-```
-
-如不修改，默认为 `admin` 和 `admin`
-
-### 2. 一键部署
+### 一键部署
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/ling-drag0n/CloudPaste)
+
+默认账号密码如下，你可以在cloudflare控制台修改:
+
+```
+ADMIN_USERNAME：`<Github 用户名>`
+ADMIN_PASSWORD：`<Github 用户名>-cloudpaste`
+```
 
 
 ## 🔧 代码结构说明
