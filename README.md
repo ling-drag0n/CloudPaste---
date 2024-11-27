@@ -112,7 +112,7 @@
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/ling-drag0n/CloudPaste)
 
-默认账号密码如下，你可以在cloudflare控制台修改:
+默认管理员账号密码如下，可以在cloudflare控制台修改如下环境变量:
 
 ```
 ADMIN_USERNAME：`<Github 用户名>`
